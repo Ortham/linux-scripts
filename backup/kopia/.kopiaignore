@@ -1,0 +1,23 @@
+/.cache/
+/.cargo/git/
+/.cargo/registry/
+/.config/chromium
+/.local/share/containers/
+/.local/share/flatpak/
+/.steam
+/.var/app/com.discordapp.Discord/cache
+/.var/app/com.spotify.Spotify/cache
+**/build/
+**/node_modules/
+**/Cache/
+**/CachedData/
+**/CacheStorage/
+*.socket
+
+# Might need to negate the excludes of some subdirectories game saves.
+/Games/Heroic
+
+/.local/share/Steam/*
+!/.local/share/Steam/steamapps
+/.local/share/Steam/steamapps/common/Proton*
+/.local/share/Steam/steamapps/common/SteamLinuxRuntime_*

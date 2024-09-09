@@ -1,0 +1,6 @@
+[Unit]  
+Description=Automated backup using BTRFS and Restic  
+  
+[Service]  
+Type=oneshot  
+ExecStart=/bin/sh /root/.local/bin/run-in-btrfs-snapshot.sh /root/.local/bin/restic-backup.sh

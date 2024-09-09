@@ -1,0 +1,8 @@
+[Unit]
+Description=Run restic-backup.service daily at 19:00
+
+[Timer]
+OnCalendar=*-*-* 19:00:00
+
+[Install]
+WantedBy=timers.target

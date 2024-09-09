@@ -1,0 +1,10 @@
+[Unit]
+Description=Detects Syncthing sync conflicts and notifies on them
+After=syncthing-resume.service
+
+[Service]
+Type=exec
+ExecStart=/bin/sh %h/.local/bin/notify-syncthing-conflicts.sh
+
+[Install]
+WantedBy=default.target

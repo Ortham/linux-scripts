@@ -1,0 +1,50 @@
+# These are matched against full paths, not relative to the parent directory.  
+.cache  
+.cargo/git/  
+.cargo/registry/  
+.config/chromium  
+.local/share/containers/  
+.local/share/flatpak/  
+.steam  
+.var/app/com.discordapp.Discord/cache  
+.var/app/com.spotify.Spotify/cache  
+build  
+node_modules  
+steamapps/common/  
+target  
+Cache  
+CachedData  
+CacheStorage  
+*.socket  
+  
+# Might need to negate the excludes of some subdirectories for any games that store saves in their install paths.  
+Games/Heroic/*
+!Games/Heroic/Prefixes
+  
+.local/share/Steam/*  
+!.local/share/Steam/steamapps  
+.local/share/Steam/steamapps/common/Proton*  
+.local/share/Steam/steamapps/common/SteamLinuxRuntime_*
+
+# For when backing up /
+# Not ignoring /etc, /home or /root
+/afs
+/bin
+/boot
+/dev
+/lib
+/lib64
+/lost+found
+/media
+/mnt
+/opt
+/proc
+/run
+/sbin
+/srv
+/sys
+/system-update
+/tmp
+/usr
+/var
+.hcwd

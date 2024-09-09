@@ -1,0 +1,6 @@
+[Unit]
+Description=Automated backup using BTRFS and Kopia
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh /root/.local/bin/run-in-btrfs-snapshot.sh /root/.local/bin/kopia-backup.sh
