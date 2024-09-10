@@ -35,6 +35,16 @@ If the backup repository's path within that partition is not `Backups/Restic` th
 
 If the source directories are not `/etc`, `/home` and `/root`, then `SOURCE_PATHS` in `backup/restic/restic-backup.sh` will need to be updated.
 
+#### Status check
+
+The `backup/restic/check-backup-status.sh` script can be installed to `$HOME/.local/bin`, then add the following to `$HOME/.bashrc`:
+
+```
+. "$HOME/.local/bin/check-backup-status.sh"
+```
+
+The status of the last backup run will then be displayed whenever you open a new terminal.
+
 ## Syncthing
 
 The syncything-conflict-detector service can be installed as a systemd user service.

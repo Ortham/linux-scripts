@@ -7,8 +7,6 @@ print_backup_status() {
         return;
     fi
 
-    BACKUP_STATUS_CODE="$(systemctl show "$SERVICE_NAME" --property ExitMainStatus | cut -d = -f 2)"
-
     JSON="$(journalctl -u restic-backup -g 'restic-backup.service' -o json -r | jq -c '. | select(.JOB_RESULT != null) | {SUCCESS: (.JOB_RESULT | test("done")),  TIMESTAMP: ((.__REALTIME_TIMESTAMP | tonumber) / 1000000 | floor)}' | head -n 1)"
 
     BACKUP_STATUS_CODE="$(echo "$JSON" | jq -c 'if .SUCCESS then 0 else 1 end')"
