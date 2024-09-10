@@ -11,6 +11,26 @@ The backup scripts need various configuration files to be created. Some are incl
 
 Create the services using `sudo systemctl edit --full --force <name>.service` and the timers using `sudo systemctl edit --full --force <name>.timer`, then enable the latter using `sudo systemctl enable <name>.timer`.
 
+For some reason the system services need to call `/bin/sh` explicitly to avoid an exit code of 203, even though the scripts start with a shebang.
+
+### Kopia
+
+The Kopia backup script assumes that `kopia repository create` and `kopia repository connect` have already been run to create the repositories and their config files.
+
+The `home.kopiaignore` file should be installed at `$HOME/.kopiaignore`, while `root.kopiaignore` should be installed at `/.kopiaignore`. Unfortunately if you configure a path to a dot ignore file (as opposed to just a filename), as part of a repository's policy, then snapshots will fail, e.g.:
+
+```
+$ kopia --config-file hdd-repository.config policy set / --add-dot-ignore /root/.config/kopia/ignore
+
+$ kopia snapshot create / --config-file hdd-repository.config --log-level debug
+...
+Snapshotting root@linux-desktop:/ ...
+DEBUG uploading {"source":"root@linux-desktop:/","previousManifests":0,"parallel":6}
+DEBUG snapshotted directory     {"path":".","error":"unable to parse ignore file ignore: unable to open ignore file: unable to open local file: open //ignore: no such file or directory","dur":"97.659µs"}
+...
+ERROR upload error: no such file or directory
+```
+
 ### Restic
 
 The Restic backup script assumes that the same password is used for the local and remote repositories, that the local repository was created using:

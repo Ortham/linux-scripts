@@ -1,0 +1,22 @@
+# Not ignoring /etc, /home or /root  
+/afs  
+/bin  
+/boot  
+/dev  
+/lib  
+/lib64  
+/lost+found  
+/media  
+/mnt  
+/opt  
+/proc  
+/run  
+/sbin  
+/srv  
+/sys  
+/system-update  
+/tmp  
+/usr  
+/var  
+.cache  
+.hcwd
