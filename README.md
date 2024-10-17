@@ -44,7 +44,7 @@ and that the remote repository was created in S3-compatible storage using:
 ```
 export AWS_PROFILE=restic
 export AWS_SHARED_CREDENTIALS_FILE=/root/.config/restic/aws-credentials
-restic -r s3:$BUCKET_LOCATION init --from-repo $MOUNT_POINT/Backups/Restic/ --copy-chunker-params  
+restic -r s3:$BUCKET_LOCATION init --from-repo $MOUNT_POINT/Backups/Restic/ --copy-chunker-params
 ```
 
 where `$MOUNT_POINT` is the mount point of a drive that holds the local backup, `$BUCKET_LOCATION` is the bucket that holds the remote repository, and the file at `$AWS_SHARED_CREDENTIALS_FILE` already exists and contains a `restic` profile with valid credentials.
@@ -64,6 +64,24 @@ The `backup/restic/check-backup-status.sh` script can be installed to `$HOME/.lo
 ```
 
 The status of the last backup run will then be displayed whenever you open a new terminal.
+
+## Games
+
+The input CSV is most easily created using Playnite's "Library Exporter Advanced" extension, with the Game Id and Sources export options ticked. For Humble Bundle games, I have the Humble library extension configured to "Ignore third party store games" so that Playnite only lists games that are downloadable from Humble Bundle, and not games that I bought on Humble Bundle but that are downloaded through Steam or other clients.
+
+Checking if Linux downloads are available for itch.io games requires an itch.io API key: if one is not provided, the checks will be skipped.
+
+Run the script as:
+
+```
+cd games
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r docs/requirements.txt
+python .\check-games-compatibility.py [-i <itch.io API key>] <path to exported library CSV> <path to output CSV>
+```
+
+That assumes you're running the script on Windows, as although it can run on Linux, Playnite is a Windows application.
 
 ## Syncthing
 
