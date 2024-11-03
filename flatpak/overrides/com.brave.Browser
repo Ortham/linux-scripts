@@ -1,0 +1,12 @@
+[Context]
+sockets=!cups;!pcsc
+filesystems=!xdg-desktop;!host-etc
+
+[Environment]
+XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons;#
+DCONF_USER_CONFIG_DIR=
+
+[Session Bus Policy]
+org.kde.kwalletd5=none
+org.freedesktop.secrets=none
+org.kde.kwalletd6=none

@@ -1,0 +1,5 @@
+[Context]
+shared=!ipc;!network
+sockets=!pcsc;!ssh-auth;!x11
+devices=!all
+filesystems=!host

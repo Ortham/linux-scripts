@@ -1,0 +1,4 @@
+[Context]
+shared=!network
+sockets=!ssh-auth;!pulseaudio
+filesystems=!xdg-run/app/com.discordapp.Discord;!/run/media;!/mnt;!xdg-run/gnupg;!/media;xdg-documents/Notes;!home

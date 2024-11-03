@@ -1,0 +1,7 @@
+[Context]
+shared=!ipc
+sockets=!x11
+filesystems=!xdg-desktop;!xdg-documents;!/media;!/run/media;!/mnt
+
+[Environment]
+ELECTRON_OZONE_PLATFORM_HINT=wayland

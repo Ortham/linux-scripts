@@ -65,6 +65,18 @@ The `backup/restic/check-backup-status.sh` script can be installed to `$HOME/.lo
 
 The status of the last backup run will then be displayed whenever you open a new terminal.
 
+## Flatpak
+
+The `flatpak/overrides` folder contains files that can be copied to `$HOME/.local/share/flatpak/overrides`. The overrides restrict the permissions of Flatpak apps, removing those that don't seem necessary for the features I use. In general they:
+
+- remove X11-related permissions for apps that have good Wayland support
+- remove blanket filesystem access to things like `host`, `home`, etc. and replacing them with more specific items (e.g. `xdg-pictures` for Inkscape)
+- remove network access unless that's required for functionality that I use
+
+I haven't extensively tested the apps with these restrictions, so parts of them may not work correctly, and there are some that have optional functionality that I don't use that is broken by these restrictions.
+
+The install script sets up a couple of Flathub remotes, installs the overrides and then installs some applications.
+
 ## Games
 
 The input CSV is most easily created using Playnite's "Library Exporter Advanced" extension, with the Game Id and Sources export options ticked. For Humble Bundle games, I have the Humble library extension configured to "Ignore third party store games" so that Playnite only lists games that are downloadable from Humble Bundle, and not games that I bought on Humble Bundle but that are downloaded through Steam or other clients.
