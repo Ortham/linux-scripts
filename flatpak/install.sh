@@ -24,6 +24,7 @@ flatpak --user install -y flathub-verified \
 	net.lutris.Lutris \
 	org.cvfosammmm.Setzer \
 	org.gimp.GIMP \
+	org.gnome.Shotwell \
 	org.inkscape.Inkscape \
 	org.kde.okteta \
 	org.keepassxc.KeePassXC \
