@@ -21,7 +21,13 @@ watch_for_conflicts() {
 }
 
 get_sync_paths() {
-    syncthing cli config folders list | xargs -I % syncthing cli config folders % path get | sed "s|~|$HOME|"
+    if command -v syncthing 2>&1 >/dev/null
+    then
+        SYNCTHING_BIN="syncthing cli config folders"
+    else
+        SYNCTHING_BIN="flatpak run --command=syncthing com.github.zocker_160.SyncThingy cli config folders"
+    fi
+    $SYNCTHING_BIN list | xargs -I % $SYNCTHING_BIN % path get | sed "s|~|$HOME|"
 }
 
 SYNC_PATHS=$(get_sync_paths)
