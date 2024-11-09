@@ -1,6 +1,6 @@
 #!/bin/sh
 # Watch for Syncthing sync conflicts and create a desktop notification for each.
-# Needs syncthing and inotifywait installed, e.g. dnf install syncthing inotify-tools
+# Needs syncthing and inotifywait installed, e.g. `dnf install syncthing inotify-tools`. Syncthing can also be provided by the com.github.zocker_160.SyncThingy Flatpak app.
 set -e -o pipefail
 
 # Adapted from <https://github.com/Martchus/syncthingtray/issues/140#issuecomment-1152718393>
