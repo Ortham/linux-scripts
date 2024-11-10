@@ -58,3 +58,12 @@ flatpak --user install -y flathub-verified \
 flatpak --user install -y flathub \
     com.spotify.Client \
     io.github.philipk.boilr
+
+# Build and install my Variety fork as a Flatpak
+VARIETY_DIR="$(mktemp -d -p /var/tmp -t "variety.XXXXXXXXXX")"
+git clone https://github.com/Ortham/variety.git "$VARIETY_DIR"
+cd "$VARIETY_DIR"
+git checkout flatpak
+git submodule update
+./flatpak-resources/generate-manifests.sh
+./flatpak-resources/build-flatpak.sh
