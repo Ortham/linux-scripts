@@ -51,7 +51,7 @@ flatpak --user install -y flathub-verified \
     com.usebottles.bottles \
     net.davidotek.pupgui2 \
     org.freac.freac \
-    org.freecadweb.FreeCAD \
+    org.freecad.FreeCAD \
     org.kde.kid3
 
 # Install apps from unverified maintainers that are probably trustworthy or low-risk enough

@@ -1,0 +1,6 @@
+[Context]
+shared=!network
+filesystems=xdg-documents;!host
+
+[Session Bus Policy]
+org.freedesktop.Flatpak=none
