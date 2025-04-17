@@ -101,6 +101,21 @@ That assumes you're running the script on Windows, as although it can run on Lin
 
 Import the rule file using the Import... option in KDE's System Settings -> Window Management -> Window Rules panel, or use it to recreate the rule in the rule editor GUI.
 
+## Partially fix GNOME Shell Suspend/Resume with Nvidia
+
+Currently if you try to sleep a GNOME desktop that uses an Nvidia graphics card with the proprietary drivers, the system will either not finish going to sleep and become unresponsive, or become unresponsive on waking.
+
+The files in the `nvidia-sleep-gnome` directory were taken from [this forum post](https://forums.developer.nvidia.com/t/trouble-suspending-with-510-39-01-linux-5-16-0-freezing-of-tasks-failed-after-20-009-seconds/200933/12).
+
+Put the shell script at `/usr/local/bin/suspend-gnome-shell.sh`, then create the two systemd services: you can either create the files then run `systemctl daemon-reload`, or create them using `systemctl edit --full --force <service name>`. Either way, then enable them:
+
+```
+systemctl enable gnome-shell-suspend
+systemctl enable gnome-shell-resume
+```
+
+That fixes manually sending a system to sleep and then waking it, but I still get an unresponsive system sometimes when the system automatically sleeps after a period of inactivity.
+
 ## Syncthing
 
 The syncything-conflict-detector service can be installed as a systemd user service.
