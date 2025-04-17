@@ -95,6 +95,12 @@ python .\check-games-compatibility.py [-i <itch.io API key>] <path to exported l
 
 That assumes you're running the script on Windows, as although it can run on Linux, Playnite is a Windows application.
 
+## KDE Window Rules
+
+`pip-always-on-top.kwinrule` is a KDE Window Rule that forces Firefox's Picture-in-Picture windows to always be displayed on top of other windows, as that's not automatically the case when running Firefox on Wayland.
+
+Import the rule file using the Import... option in KDE's System Settings -> Window Management -> Window Rules panel, or use it to recreate the rule in the rule editor GUI.
+
 ## Syncthing
 
 The syncything-conflict-detector service can be installed as a systemd user service.

@@ -1,0 +1,10 @@
+[PiP Always On Top]
+Description=PiP Always On Top
+above=true
+aboverule=2
+title=Picture-in-Picture
+titlematch=1
+types=1
+wmclass=firefox org.mozilla.firefox
+wmclasscomplete=true
+wmclassmatch=1
