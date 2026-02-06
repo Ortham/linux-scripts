@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3"
+# dependencies = ["requests==2.32.3"]
+# ///
 
 import argparse
 import csv

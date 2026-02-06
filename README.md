@@ -87,10 +87,7 @@ Run the script as:
 
 ```
 cd games
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r docs/requirements.txt
-python .\check-games-compatibility.py [-i <itch.io API key>] <path to exported library CSV> <path to output CSV>
+uv run .\check-games-compatibility.py [-i <itch.io API key>] <path to exported library CSV> <path to output CSV>
 ```
 
 That assumes you're running the script on Windows, as although it can run on Linux, Playnite is a Windows application.
