@@ -115,8 +115,9 @@ That fixes manually sending a system to sleep and then waking it, but I still ge
 
 ## Syncthing
 
-The syncything-conflict-detector service can be installed as a systemd user service.
+The syncything-conflict-detector service can be installed as a systemd user service:
 
-1. Put `syncthing/notify-syncthing-conflicts.sh` in `$HOME/.local/bin`.
-2. Copy the contents of `syncthing/syncthing-conflict-detectors.service` into the editor opened when you run `systemctl --user edit --full --force syncthing-conflict-detector.service`.
-3. Run `systemctl --user enable syncthing-conflict-detector` to enable the service.
+```sh
+cd syncthing
+./install.sh
+```
