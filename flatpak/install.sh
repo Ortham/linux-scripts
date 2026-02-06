@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e -o pipefail
 
 # Set up Flathub remotes
@@ -13,58 +13,98 @@ cp overrides/* "$OVERRIDES_PATH"
 # Install apps that have verified maintainers
 flatpak --user install -y flathub-verified \
     com.brave.Browser \
-    com.dec05eba.gpu_screen_recorder \
     com.discordapp.Discord \
     com.github.tchx84.Flatseal \
     com.github.zocker_160.SyncThingy \
     com.heroicgameslauncher.hgl \
     com.steamgriddb.SGDBoop \
     fr.handbrake.ghb \
-    io.github.flattool.Warehouse \
+    io.ente.photos \
     io.podman_desktop.PodmanDesktop \
     it.mijorus.gearlever \
     md.obsidian.Obsidian \
     net.lutris.Lutris \
-    org.cvfosammmm.Setzer \
     org.gimp.GIMP \
-    org.gnome.Shotwell \
     org.inkscape.Inkscape \
+    org.kde.kdiff3 \
+    org.kde.kleopatra \
     org.kde.okteta \
     org.keepassxc.KeePassXC \
     org.libreoffice.LibreOffice \
     org.mozilla.Thunderbird \
-    org.qbittorrent.qBittorrent \
-    org.torproject.torbrowser-launcher
-
-if [[ "$XDG_SESSION_DESKTOP" = "gnome" ]]
-then
-    flatpak --user install -y flathub-verified \
-        org.gnome.Totem
-else
-    flatpak --user install -y flathub-verified \
-        io.missioncenter.MissionCenter
-fi
-
-# Install other verified apps that I'm less sure about
-flatpak --user install -y flathub-verified \
-    com.github.ryonakano.reco \
-    com.usebottles.bottles \
-    net.davidotek.pupgui2 \
-    org.freac.freac \
-    org.freecad.FreeCAD \
-    org.kde.kid3
+    org.qbittorrent.qBittorrent
 
 # Install apps from unverified maintainers that are probably trustworthy or low-risk enough
 flatpak --user install -y flathub \
-    com.spotify.Client \
+    com.spotify.Client
+
+ASK_VERIFIED_FLATPAKS=(
+    com.dec05eba.gpu_screen_recorder
+    com.github.ryonakano.reco
+    com.usebottles.bottles
+    io.github.flattool.Warehouse
+    io.github.Qalculate
+    org.cvfosammmm.Setzer
+    net.davidotek.pupgui2
+    org.gnome.Shotwell
+    net.nokyan.Resources
+    org.freac.freac
+    org.freecad.FreeCAD
+    org.kde.kid3
+    org.texstudio.TeXstudio
+    org.virt_manager.virt-manager
+)
+
+if [ "$XDG_SESSION_DESKTOP" = "gnome" ]
+then
+    ASK_VERIFIED_FLATPAKS+=(org.gnome.Totem)
+else
+    ASK_VERIFIED_FLATPAKS+=(io.missioncenter.MissionCenter)
+fi
+
+ASK_UNVERIFIED_FLATPAKS=(
     io.github.philipk.boilr
+)
+
+ask_install() {
+    TARGET="$1"
+
+    read -p "Do you want to install $TARGET? (y/N) " answer
+    case "$answer" in
+        [yY]* )
+            return 0
+            ;;
+        * )
+            return 1
+            ;;
+    esac
+}
+
+for FLATPAK_ID in "${ASK_VERIFIED_FLATPAKS[@]}"
+do
+    if ask_install "$FLATPAK_ID"
+    then
+        flatpak --user install -y flathub-verified "$FLATPAK_ID"
+    fi
+done
+
+for FLATPAK_ID in "${ASK_UNVERIFIED_FLATPAKS[@]}"
+do
+    if ask_install "$FLATPAK_ID (unverified!)"
+    then
+        flatpak --user install -y flathub "$FLATPAK_ID"
+    fi
+done
 
 # Build and install my Variety fork as a Flatpak
-VARIETY_DIR="$(mktemp -d -p /var/tmp -t "variety.XXXXXXXXXX")"
-git clone https://github.com/Ortham/variety.git "$VARIETY_DIR"
-cd "$VARIETY_DIR"
-git checkout flatpak
-git submodule init
-git submodule update
-./flatpak-resources/generate-manifests.sh
-./flatpak-resources/build-flatpak.sh
+if ask_install "Variety as a Flatpak"
+then
+    VARIETY_DIR="$(mktemp -d -p /var/tmp -t "variety.XXXXXXXXXX")"
+    git clone https://github.com/Ortham/variety.git "$VARIETY_DIR"
+    cd "$VARIETY_DIR"
+    git checkout flatpak
+    git submodule init
+    git submodule update
+    ./flatpak-resources/generate-manifests.sh
+    ./flatpak-resources/build-flatpak.sh
+fi

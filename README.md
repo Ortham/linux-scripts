@@ -75,7 +75,12 @@ The `flatpak/overrides` folder contains files that can be copied to `$HOME/.loca
 
 I haven't extensively tested the apps with these restrictions, so parts of them may not work correctly, and there are some that have optional functionality that I don't use that is broken by these restrictions.
 
-The install script sets up a couple of Flathub remotes, installs the overrides and then installs some applications.
+The install script sets up a couple of Flathub remotes, installs the overrides and then installs some applications. It prompts for some applications that I may not want to install.
+
+```
+cd flatpak
+./install.sh
+```
 
 ## Games
 
