@@ -1,0 +1,4 @@
+[Context]
+shared=!ipc
+sockets=!cups;!fallback-x11;!x11
+filesystems=!host
