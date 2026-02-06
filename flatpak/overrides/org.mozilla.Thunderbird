@@ -1,4 +1,4 @@
 [Context]
 shared=!ipc
-sockets=!cups;!pcsc;!x11
+sockets=!cups;!pcsc;!fallback-x11;!x11
 devices=!all

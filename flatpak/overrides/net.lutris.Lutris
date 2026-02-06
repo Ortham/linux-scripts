@@ -1,4 +1,4 @@
 [Context]
 shared=!ipc
 sockets=!x11
-filesystems=!home,home/Games
+filesystems=home/Games
