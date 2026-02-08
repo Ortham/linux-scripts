@@ -6,7 +6,7 @@ After=nvidia-resume.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/suspend-gnome-shell.sh resume
+ExecStart=BIN_DIR/suspend-gnome-shell.sh resume
 
 [Install]
 WantedBy=systemd-suspend.service

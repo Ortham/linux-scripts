@@ -109,11 +109,11 @@ Currently if you try to sleep a GNOME desktop that uses an Nvidia graphics card 
 
 The files in the `nvidia-sleep-gnome` directory were taken from [this forum post](https://forums.developer.nvidia.com/t/trouble-suspending-with-510-39-01-linux-5-16-0-freezing-of-tasks-failed-after-20-009-seconds/200933/12).
 
-Put the shell script at `/usr/local/bin/suspend-gnome-shell.sh`, then create the two systemd services: you can either create the files then run `systemctl daemon-reload`, or create them using `systemctl edit --full --force <service name>`. Either way, then enable them:
+Install them using:
 
-```
-systemctl enable gnome-shell-suspend
-systemctl enable gnome-shell-resume
+```sh
+cd gnome/nvidia-sleep
+sudo ./install.sh
 ```
 
 That fixes manually sending a system to sleep and then waking it, but I still get an unresponsive system sometimes when the system automatically sleeps after a period of inactivity.

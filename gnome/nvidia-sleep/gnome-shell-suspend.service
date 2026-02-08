@@ -7,7 +7,7 @@ Before=nvidia-hibernate.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/suspend-gnome-shell.sh suspend
+ExecStart=BIN_DIR/suspend-gnome-shell.sh suspend
 
 [Install]
 WantedBy=systemd-suspend.service
