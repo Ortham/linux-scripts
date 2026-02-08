@@ -25,6 +25,7 @@ flatpak --user install -y flathub-verified \
     md.obsidian.Obsidian \
     net.lutris.Lutris \
     org.gimp.GIMP \
+    org.gnome.Boxes \
     org.inkscape.Inkscape \
     org.kde.kdiff3 \
     org.kde.kleopatra \
