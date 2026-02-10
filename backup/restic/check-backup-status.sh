@@ -2,7 +2,7 @@
 # Check when the Restic backup service last ran and whether it succeeded or failed.
 print_backup_status() {
     SERVICE_NAME=restic-backup.service
-    if [[ $(systemctl list-unit-files "$SERVICE_NAME" | wc -l) -eq 3 ]]
+    if [ $(systemctl list-unit-files "$SERVICE_NAME" | wc -l) -eq 3 ]
     then
         return;
     fi
@@ -11,7 +11,7 @@ print_backup_status() {
 
     BACKUP_STATUS_CODE="$(echo "$JSON" | jq -c 'if .SUCCESS then 0 else 1 end')"
 
-    if [[ "$BACKUP_STATUS_CODE" -eq 0 ]]
+    if [ "$BACKUP_STATUS_CODE" -eq 0 ]
     then
         BACKUP_STATUS="\e[32msucceeded\e[0m."
     else

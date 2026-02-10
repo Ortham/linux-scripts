@@ -1,33 +1,101 @@
-#!/bin/sh  
-# Backup script using Restic.  
-set -e  
-  
-SOURCE_PATHS=(/etc /home /root)
+#!/bin/sh
+# Backup script using Restic.
+set -e
+
 LOCAL_REPOSITORY_MOUNT_POINT="$1"
-LOCAL_REPOSITORY="${LOCAL_REPOSITORY_MOUNT_POINT}/Backups/Restic"  
-REMOTE_REPOSITORY_FILE="/root/.config/restic/remote-repository"  
-EXCLUDE_FILE_PATH="/root/.config/restic/exclude"  
-COPY_CONNECTIONS=5
-export RESTIC_PASSWORD_FILE="/root/.config/restic/repository-password"  
-export AWS_PROFILE=restic
-export AWS_SHARED_CREDENTIALS_FILE=/root/.config/restic/aws-credentials
-export PATH="/root/.local/bin:$PATH"
-export RESTIC_CACHE_DIR="/root/.cache/restic"
+BTRFS_SNAPSHOTS_DIR="$2"
+LOCAL_REPOSITORY="${LOCAL_REPOSITORY_MOUNT_POINT}/${LOCAL_REPOSITORY_RELATIVE_PATH}"
+
+if [ -z "$LOCAL_REPOSITORY_MOUNT_POINT" ]
+then
+        echo "ERROR: Local repository mount point (first argument) is empty!"
+        exit 1
+fi
 
 echo "Backing up using $(restic version)"
-  
-echo "Creating Restic snapshot in local backup repository..."  
-restic -r "$LOCAL_REPOSITORY" backup "${SOURCE_PATHS[@]}" --exclude-file "$EXCLUDE_FILE_PATH" --exclude-caches  
-restic -r "$LOCAL_REPOSITORY" check  
-  
-echo "Pruning old snapshots from local repository..."  
-restic -r "$LOCAL_REPOSITORY" forget --prune --keep-yearly 3 --keep-monthly 24 --keep-weekly 4 --keep-daily 7 --keep-hourly 48 --keep-last 10  
-  
+
+if ! restic -r "$LOCAL_REPOSITORY" -p "$LOCAL_REPOSITORY_PASSWORD_FILE" cat config
+then
+    echo "Initialising the local backup repository..."
+    restic init \
+        --repo "$LOCAL_REPOSITORY" \
+        --password-file "$LOCAL_REPOSITORY_PASSWORD_FILE"
+fi
+
+echo "Creating Restic snapshot in local backup repository..."
+restic backup \
+    --repo "$LOCAL_REPOSITORY" \
+    --password-file "$LOCAL_REPOSITORY_PASSWORD_FILE" \
+    --exclude-file "$EXCLUDE_FILE_PATH" \
+    --exclude-caches \
+    --files-from-verbatim "$FILES_FROM_PATH"
+
+restic check \
+    --repo "$LOCAL_REPOSITORY" \
+    --password-file "$LOCAL_REPOSITORY_PASSWORD_FILE"
+
+echo "Pruning old snapshots from local repository..."
+restic forget \
+    --repo "$LOCAL_REPOSITORY"  \
+    --password-file "$LOCAL_REPOSITORY_PASSWORD_FILE" \
+    --prune \
+    --keep-yearly "$KEEP_YEARLY" \
+    --keep-monthly "$KEEP_MONTHLY" \
+    --keep-weekly "$KEEP_WEEKLY" \
+    --keep-daily "$KEEP_DAILY" \
+    --keep-hourly "$KEEP_HOURLY" \
+    --keep-last "$KEEP_LAST" \
+    --keep-within "$KEEP_WITHIN"
+
+restic check \
+    --repo "$LOCAL_REPOSITORY" \
+    --password-file "$LOCAL_REPOSITORY_PASSWORD_FILE"
+
+if [ -z "$REMOTE_REPOSITORY" ]
+then
+    echo "No remote repository is configured, skipping syncing the local repository to it."
+    echo "Backup complete!"
+    exit 0
+fi
+
+if ! restic -r "$REMOTE_REPOSITORY" -p "$REMOTE_REPOSITORY_PASSWORD_FILE" cat config
+then
+    echo "Initialising the remote backup repository..."
+    restic init \
+        --repo "$REMOTE_REPOSITORY" \
+        --password-file "$REMOTE_REPOSITORY_PASSWORD_FILE" \
+        --from-repo "$LOCAL_REPOSITORY" \
+        --from-password-file "$LOCAL_REPOSITORY_PASSWORD_FILE" \
+        --copy-chunker-params
+fi
+
 echo "Syncing local backup repoitory to remote backup repository using ${COPY_CONNECTIONS} connections..."
-restic --repository-file "$REMOTE_REPOSITORY_FILE" copy --from-repo "$LOCAL_REPOSITORY" --from-password-file "$RESTIC_PASSWORD_FILE" -o s3.connections="$COPY_CONNECTIONS"
-restic --repository-file "$REMOTE_REPOSITORY_FILE" check  
-  
-echo "Pruning old snapshots from remote repository..."  
-restic --repository-file "$REMOTE_REPOSITORY_FILE" forget --prune --keep-yearly 3 --keep-monthly 24 --keep-weekly 4 --keep-daily 7 --keep-hourly 48 --keep-last 10  
-  
+restic copy \
+    --repo "$REMOTE_REPOSITORY" \
+    --password-file "$REMOTE_REPOSITORY_PASSWORD_FILE" \
+    --from-repo "$LOCAL_REPOSITORY" \
+    --from-password-file "$LOCAL_REPOSITORY_PASSWORD_FILE" \
+    --option s3.connections="$COPY_CONNECTIONS"
+
+restic check \
+    --repo "$REMOTE_REPOSITORY" \
+    --password-file "$REMOTE_REPOSITORY_PASSWORD_FILE"
+
+echo "Pruning old snapshots from remote repository..."
+restic forget \
+    --repo "$REMOTE_REPOSITORY" \
+    --password-file "$REMOTE_REPOSITORY_PASSWORD_FILE" \
+    --prune \
+    --keep-yearly "$KEEP_YEARLY" \
+    --keep-monthly "$KEEP_MONTHLY" \
+    --keep-weekly "$KEEP_WEEKLY" \
+    --keep-daily "$KEEP_DAILY" \
+    --keep-hourly "$KEEP_HOURLY" \
+    --keep-last "$KEEP_LAST" \
+    --keep-within "$KEEP_WITHIN"
+
+restic check \
+    --repo "$REMOTE_REPOSITORY" \
+    --password-file "$REMOTE_REPOSITORY_PASSWORD_FILE"
+
 echo "Backup complete!"

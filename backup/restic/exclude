@@ -1,29 +1,35 @@
-# These are matched against full paths, not relative to the parent directory.  
-.cache  
-.cargo/git/  
-.cargo/registry/  
-.config/chromium  
-.local/share/containers/  
-.local/share/flatpak/  
-.steam  
-.var/app/com.discordapp.Discord/cache  
-.var/app/com.spotify.Spotify/cache  
-build  
-node_modules  
-steamapps/common/  
-target  
-Cache  
-CachedData  
-CacheStorage  
-*.socket  
-  
-# Might need to negate the excludes of some subdirectories for any games that store saves in their install paths.  
+# These are matched against full paths, not relative to the parent directory.
+.cache
+.cargo/git/
+.cargo/registry/
+.config/chromium
+.local/share/clion-*/
+.local/share/containers/
+.local/share/flatpak/
+.local/share/tor-browser/
+.local/share/yubico-authenticator-*-linux/
+.steam
+.var/app/com.discordapp.Discord/cache
+.var/app/com.spotify.Spotify/cache
+.var/app/com.usebottles.bottles/data/bottles
+.var/app/org.gnome.Boxes/data/gnome-boxes
+build
+cmake-build-*
+node_modules
+steamapps/common/
+target
+Cache
+CachedData
+CacheStorage
+*.socket
+
+# Might need to negate the excludes of some subdirectories for any games that store saves in their install paths.
 Games/Heroic/*
 !Games/Heroic/Prefixes
-  
-.local/share/Steam/*  
-!.local/share/Steam/steamapps  
-.local/share/Steam/steamapps/common/Proton*  
+
+.local/share/Steam/*
+!.local/share/Steam/steamapps
+.local/share/Steam/steamapps/common/Proton*
 .local/share/Steam/steamapps/common/SteamLinuxRuntime_*
 
 # For when backing up /
@@ -46,5 +52,4 @@ Games/Heroic/*
 /system-update
 /tmp
 /usr
-/var
 .hcwd

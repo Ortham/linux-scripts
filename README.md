@@ -33,37 +33,40 @@ ERROR upload error: no such file or directory
 
 ### Restic
 
-The Restic backup script assumes that the same password is used for the local and remote repositories, that the local repository was created using:
+The `exclude` file contains the excludes that are passed to Restic, see [the docs](https://restic.readthedocs.io/en/latest/040_backup.html#excluding-files) for an explanation of the syntax.
+
+The `restic-backup.env` file contains all of the configuration passed to the Restic backup service. There are two settings that have no default value:
+
+- `TARGET_PARTITION_UUID` must be set to the UUID of the partition that holds the local backup repository.
+
+  `ls -l /dev/disk/by-uuid` can help identify which is the correct UUID.
+- `REMOTE_REPOSITORY` must be set to the path-based URL of a bucket in S3-compatible storage, e.g. `s3:s3.us-east-1.amazonaws.com/bucket_name`
+
+Two credentials files need to be created:
+
+- `/opt/restic-backup-service/etc/credentials/repository-password` should contain (only) the backup repositories' password.
+
+  If the local and remote repositories should use different passwords, then create two different files in `/opt/restic-backup-service/etc/credentials/` and update `restic-backup.env` to use their paths.
+- `/opt/restic-backup-service/etc/credentials/aws-credentials` should look like:
+
+    ```
+    [restic]
+    aws_access_key_id = <value>
+    aws_secret_access_key = <value>
+    ```
+
+    where the values are those necessary to access the S3-compatible storage bucket identified by the `REMOTE_REPOSITORY` configuration value.
+
+Install using:
 
 ```
-restic -r "$MOUNT_POINT/Backups/Restic" init
+cd backup/restic
+sudo ./install.sh
 ```
 
-and that the remote repository was created in S3-compatible storage using:
+then create the credentials files. Once they're created, run `sudo systemctl enable restic-backup.timer` to schedule the backups. You can also manually trigger a backup by running `sudo systemctl start restic-backup.service`.
 
-```
-export AWS_PROFILE=restic
-export AWS_SHARED_CREDENTIALS_FILE=/root/.config/restic/aws-credentials
-restic -r s3:$BUCKET_LOCATION init --from-repo $MOUNT_POINT/Backups/Restic/ --copy-chunker-params
-```
-
-where `$MOUNT_POINT` is the mount point of a drive that holds the local backup, `$BUCKET_LOCATION` is the bucket that holds the remote repository, and the file at `$AWS_SHARED_CREDENTIALS_FILE` already exists and contains a `restic` profile with valid credentials.
-
-`EXTERNAL_DRIVE_UUID` in `backup/run-in-btrfs-snapshot.sh` needs to be the UUID of the partition that holds the local backup repository.
-
-If the backup repository's path within that partition is not `Backups/Restic` then `LOCAL_REPOSITORY` in `restic-backup.sh` will need to be updated to reflect that.
-
-If the source directories are not `/etc`, `/home` and `/root`, then `SOURCE_PATHS` in `backup/restic/restic-backup.sh` will need to be updated.
-
-#### Status check
-
-The `backup/restic/check-backup-status.sh` script can be installed to `$HOME/.local/bin`, then add the following to `$HOME/.bashrc`:
-
-```
-. "$HOME/.local/bin/check-backup-status.sh"
-```
-
-The status of the last backup run will then be displayed whenever you open a new terminal.
+The status of the last backup run will be displayed whenever you open a new terminal.
 
 ## Flatpak
 
