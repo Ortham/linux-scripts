@@ -33,7 +33,7 @@ ERROR upload error: no such file or directory
 
 ### Restic
 
-The `exclude` file contains the excludes that are passed to Restic, see [the docs](https://restic.readthedocs.io/en/latest/040_backup.html#excluding-files) for an explanation of the syntax.
+The `exclude_files` file contains the excludes that are passed to Restic, see [the docs](https://restic.readthedocs.io/en/latest/040_backup.html#excluding-files) for an explanation of the syntax.
 
 The `restic-backup.env` file contains all of the configuration passed to the Restic backup service. There are two settings that have no default value:
 

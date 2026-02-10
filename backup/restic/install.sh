@@ -26,11 +26,11 @@ chmod go-rwx "$CONFIG_DIR/credentials"
 
 # These scripts rely on jq being installed.
 cp -f check-backup-status.sh "$BIN_DIR"
-cp -f restic-backup.sh "$BIN_DIR"
+cp -f run-restic-backup.sh "$BIN_DIR"
 cp -f ../run-in-btrfs-snapshot.sh "$BIN_DIR"
 
-rename_existing_file "$CONFIG_DIR/exclude"
-cp exclude "$CONFIG_DIR"
+rename_existing_file "$CONFIG_DIR/exclude_files"
+cp exclude_files "$CONFIG_DIR"
 
 rename_existing_file "$CONFIG_DIR/include_files"
 cp include_files "$CONFIG_DIR"

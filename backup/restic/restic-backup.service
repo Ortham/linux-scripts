@@ -4,4 +4,4 @@ Description=Automated backup using BTRFS and Restic
 [Service]
 Type=oneshot
 EnvironmentFile=CONFIG_DIR/restic-backup.env
-ExecStart=/usr/bin/bash BIN_DIR/run-in-btrfs-snapshot.sh BIN_DIR/restic-backup.sh
+ExecStart=/usr/bin/bash BIN_DIR/run-in-btrfs-snapshot.sh BIN_DIR/run-restic-backup.sh
