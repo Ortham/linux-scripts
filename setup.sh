@@ -1,6 +1,10 @@
 #!/bin/sh
 set -e -o pipefail
 
+cd backup/restic
+sudo ./install.sh
+cd -
+
 cd flatpak
 ./install.sh
 cd -
