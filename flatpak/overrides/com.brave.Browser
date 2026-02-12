@@ -1,5 +1,6 @@
 [Context]
-sockets=!cups;!pcsc
+shared=!ipc
+sockets=!cups;!pcsc;!x11
 filesystems=!xdg-desktop;!host-etc
 
 [Environment]
