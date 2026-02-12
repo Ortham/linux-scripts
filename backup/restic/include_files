@@ -1,3 +1,4 @@
+# Files to include in Restic backups
 /etc
 /var/home
 /var/opt

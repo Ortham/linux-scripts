@@ -1,55 +1,68 @@
-# These are matched against full paths, not relative to the parent directory.
+# Files to exclude from Restic backups
+
+# Ignore most of /
+# In Fedora Atomic 42+ the /home, /opt and /root entries as symlinks to
+# directories in /var.
+/
+!/etc
+!/home
+!/opt
+!/root
+!/var/home
+!/var/opt
+!/var/roothome
+
+# Caches
+*cache
+*Cache
 .cache
-.cargo/git/
-.cargo/registry/
-.config/chromium
-.local/share/clion-*/
-.local/share/containers/
-.local/share/flatpak/
-.local/share/tor-browser/
-.local/share/yubico-authenticator-*-linux/
-.steam
-.var/app/com.discordapp.Discord/cache
-.var/app/com.spotify.Spotify/cache
-.var/app/com.usebottles.bottles/data/bottles
-.var/app/org.gnome.Boxes/data/gnome-boxes
-build
-cmake-build-*
-node_modules
-steamapps/common/
-target
+cache
 Cache
 CachedData
 CacheStorage
-*.socket
 
-# Might need to negate the excludes of some subdirectories for any games that store saves in their install paths.
+# Containers, volumes and user-scoped Flatpaks
+.local/share/containers
+.local/share/flatpak
+
+# VM images
+.var/app/org.gnome.Boxes/data/gnome-boxes
+.var/app/org.virt_manager.virt-manager/data/images
+
+# Software development generated directories
+.cargo/git
+.cargo/registry
+build
+cmake-build-*
+node_modules
+target
+
+# Manually-installed applications
+.local/share/clion-*
+.local/share/tor-browser
+.local/share/yubico-authenticator-*-linux
+
+# Games installed using Heroic Games Launcher
+# This probably needs to be adjusted for games that store saves in their
+# install paths, and to exclude more generic files from Wine prefixes.
 Games/Heroic/*
 !Games/Heroic/Prefixes
 
-.local/share/Steam/*
-!.local/share/Steam/steamapps
-.local/share/Steam/steamapps/common/Proton*
-.local/share/Steam/steamapps/common/SteamLinuxRuntime_*
+# Steam
+# Add cancellations for any games that store saves in their install paths (like
+# Morrowind).
+.steam
+.local/share/Steam
+!.local/share/Steam/config/*.vdf
+!.local/share/Steam/steamapps/*.acf
+!.local/share/Steam/steamapps/libraryfolders.vdf
+!.local/share/Steam/steamapps/compatdata/*/pfx/drive_c/users
+!.local/share/Steam/steamapps/common/Morrowind/Saves
+!.local/share/Steam/userdata
 
-# For when backing up /
-# Not ignoring /etc, /home or /root
-/afs
-/bin
-/boot
-/dev
-/lib
-/lib64
-/lost+found
-/media
-/mnt
-/opt
-/proc
-/run
-/sbin
-/srv
-/sys
-/system-update
-/tmp
-/usr
-.hcwd
+# Misc files and folders
+*.socket
+.local/share/JetBrains
+.var/app/com.usebottles.bottles/data/bottles
+.wine/drive_c/windows
+Downloads
