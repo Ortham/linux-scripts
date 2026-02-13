@@ -59,11 +59,18 @@ do
 
     if [ -d "$BASHRC_DIR" ]
     then
-        SCRIPT_PATH="$BASHRC_DIR/check-restic-backup-status.sh"
-        echo ". \"$BIN_DIR/check-backup-status.sh\"" > "$SCRIPT_PATH"
-        chown --reference "$USER_HOME" "$SCRIPT_PATH"
+        SCRIPT_TO_RUN="$BIN_DIR/check-backup-status.sh"
+        USER_SCRIPT_PATH="$BASHRC_DIR/check-restic-backup-status.sh"
 
-        echo "Registered the backup check in $SCRIPT_PATH"
+        cat > "$USER_SCRIPT_PATH" << EOF
+if [ -f "$SCRIPT_TO_RUN" ]
+then
+    . "$SCRIPT_TO_RUN"
+fi
+EOF
+        chown --reference "$USER_HOME" "$USER_SCRIPT_PATH"
+
+        echo "Registered the backup check in $USER_SCRIPT_PATH"
     fi
 done
 
