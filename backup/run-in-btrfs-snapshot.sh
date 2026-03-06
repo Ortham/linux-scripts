@@ -12,14 +12,21 @@ fi
 
 cleanup() {
         echo "Tearing down BTRFS snapshot environment..."
+        if [ -n "$ROOT_DIR" ]
+        then
         umount "${ROOT_DIR}${TARGET_MOUNT_POINT}" || true
         umount "$ROOT_DIR/run" || true
         umount "$ROOT_DIR/dev" || true
         umount "$ROOT_DIR/proc" || true
         btrfs subvolume delete "$ROOT_DIR/var/home" || true
-        btrfs subvolume delete "$ROOT_DIR/var" || true
-        btrfs subvolume delete "$ROOT_DIR" || true
+                btrfs subvolume delete "$ROOT_DIR/var" || true
+                btrfs subvolume delete "$ROOT_DIR" || true
+        fi
+
+        if [ -n "$BTRFS_SNAPSHOT_DIRR" ]
+        then
         rmdir "$BTRFS_SNAPSHOT_DIR" || true
+        fi
 
         echo "Tear down complete!"
 

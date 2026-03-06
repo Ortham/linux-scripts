@@ -26,7 +26,7 @@ CacheStorage
 .local/share/flatpak
 
 # VM images
-.var/app/org.gnome.Boxes/data/gnome-boxes
+gnome-boxes/images
 .var/app/org.virt_manager.virt-manager/data/images
 
 # Software development generated directories
@@ -46,7 +46,8 @@ target
 # This probably needs to be adjusted for games that store saves in their
 # install paths, and to exclude more generic files from Wine prefixes.
 Games/Heroic/*
-!Games/Heroic/Prefixes
+!Games/Heroic/Unreal Tournament 2004/Saves
+!Games/Heroic/Prefixes/*/*/drive_c/users
 
 # Steam
 # Add cancellations for any games that store saves in their install paths (like
