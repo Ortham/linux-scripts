@@ -15,6 +15,7 @@ sudo rpm-ostree install \
 	gstreamer1-plugins-bad-freeworld \
 	gstreamer1-plugins-ugly \
 	gstreamer1-vaapi \
+	pipewire-codec-aptx \
 	steam
 
 rpm-ostree override remove \
