@@ -1,6 +1,10 @@
 [Context]
-shared=!network
+shared=!ipc;!network
+sockets=wayland;!x11
 filesystems=xdg-documents;!host
+
+[Environment]
+QT_QPA_PLATFORM=
 
 [Session Bus Policy]
 org.freedesktop.Flatpak=none
