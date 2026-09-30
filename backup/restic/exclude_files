@@ -32,6 +32,7 @@ gnome-boxes/images
 # Software development generated directories
 .cargo/git
 .cargo/registry
+.venv
 build
 cmake-build-*
 node_modules
@@ -64,6 +65,7 @@ Games/Heroic/*
 # Misc files and folders
 *.socket
 .local/share/JetBrains
+.local/share/Trash
 .var/app/com.usebottles.bottles/data/bottles
 .wine/drive_c/windows
 Downloads
