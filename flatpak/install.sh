@@ -24,8 +24,10 @@ flatpak --user install -y flathub-verified \
     it.mijorus.gearlever \
     md.obsidian.Obsidian \
     net.lutris.Lutris \
+    org.cryptomator.Cryptomator \
     org.gimp.GIMP \
     org.gnome.Boxes \
+    org.gnome.Gtranslator \
     org.inkscape.Inkscape \
     org.kde.kdiff3 \
     org.kde.kleopatra \
@@ -33,7 +35,8 @@ flatpak --user install -y flathub-verified \
     org.keepassxc.KeePassXC \
     org.libreoffice.LibreOffice \
     org.mozilla.Thunderbird \
-    org.qbittorrent.qBittorrent
+    org.qbittorrent.qBittorrent \
+    org.speedcrunch.SpeedCrunch
 
 # Install apps from unverified maintainers that are probably trustworthy or low-risk enough
 flatpak --user install -y flathub \
@@ -44,12 +47,10 @@ ASK_VERIFIED_FLATPAKS=(
     com.github.ryonakano.reco
     com.usebottles.bottles
     io.github.flattool.Warehouse
-    io.github.Qalculate
     org.cvfosammmm.Setzer
     net.davidotek.pupgui2
     org.gnome.Shotwell
     net.nokyan.Resources
-    org.freac.freac
     org.freecad.FreeCAD
     org.kde.kid3
     org.texstudio.TeXstudio
